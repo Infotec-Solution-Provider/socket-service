@@ -6,8 +6,7 @@ import socketController from "./controllers/socket.controller";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import socketService from "./services/socket.service";
-import { Logger } from "@in.pulse-crm/utils";
-
+import { Logger, logRoutes } from "@in.pulse-crm/utils";
 
 const app = express();
 const ROUTE_PREFIX = "/api/ws";
@@ -30,11 +29,13 @@ const socket = new Server(server, {
 			"http://localhost:6001",
 			"https://inpulse.infotecrs.inf.br",
 			"https://socket.infotecrs.inf.br",
-			"http://localhost:3000",
+			"http://localhost:3000"
 		],
 		methods: ["GET", "POST"]
 	}
 });
+
+logRoutes(ROUTE_PREFIX, [socketController.routes]);
 
 socketService.setServer(socket);
 
