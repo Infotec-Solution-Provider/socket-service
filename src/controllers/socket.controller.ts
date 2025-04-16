@@ -2,6 +2,7 @@ import { Request, Response, Router } from "express";
 import EventFactory from "../events/event.factory";
 import socket from "../services/socket.service";
 import { sanitizeErrorMessage } from "@in.pulse-crm/utils";
+import { ZodError } from "zod";
 
 class SocketController {
 	constructor(private readonly router: Router) {
@@ -16,11 +17,7 @@ class SocketController {
 		try {
 			const { room, type } = req.params;
 
-			const event = EventFactory.createEvent(
-				type,
-				room,
-				req.body
-			);
+			const event = EventFactory.createEvent(type, room, req.body);
 
 			if (event instanceof Error) {
 				res.status(400).json({
@@ -36,6 +33,16 @@ class SocketController {
 				message: "Event emitted successfully"
 			});
 		} catch (error) {
+			console.error(error);
+
+			if (error instanceof ZodError) {
+				res.status(400).json({
+					message: "Validation error",
+					cause: error.issues
+				});
+				return;
+			}
+
 			res.status(500).json({
 				message: "Failed to emit event",
 				cause: error

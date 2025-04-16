@@ -5,7 +5,8 @@ import { Logger, sanitizeErrorMessage } from "@in.pulse-crm/utils";
 import {
 	SocketClientRoom,
 	SocketServerRoom,
-	SessionData
+	SessionData,
+	SocketClientUserRoom
 } from "@in.pulse-crm/sdk";
 
 class SocketService {
@@ -79,9 +80,12 @@ class SocketService {
 					token
 				);
 
+				this.joinRoom(session, `user:${session.userId}`, socket);
+
 				if (session.role === "ADMIN") {
 					this.joinRoom(session, "admin", socket);
 				}
+
 
 				socket.on("join-room", (room: SocketClientRoom) => {
 					this.joinRoom(session, room, socket);
