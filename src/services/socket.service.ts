@@ -5,9 +5,9 @@ import { Logger, sanitizeErrorMessage } from "@in.pulse-crm/utils";
 import {
 	SocketClientRoom,
 	SocketServerRoom,
-	SessionData,
-	SocketClientUserRoom
+	SessionData
 } from "@in.pulse-crm/sdk";
+import whatsappService from "./whatsapp.service";
 
 class SocketService {
 	private server: Server | null = null;
@@ -56,6 +56,19 @@ class SocketService {
 		Logger.info(`(event) {leave_room}: ${ip} left /${serverRoom}/`);
 	}
 
+	private async joinAllUserChatRooms(socket: Socket, token: string) {
+
+		const { data } = await whatsappService.getChatsBySession(
+			token,
+			false,
+			false
+		);
+
+		for (const chat of data.chats) {
+			socket.join(`${chat.instance}:chat:${chat.id}`);
+		}
+	}
+
 	public setServer(server: Server) {
 		this.server = server;
 
@@ -80,12 +93,21 @@ class SocketService {
 					token
 				);
 
+				authService.initOnlineSession(token);
+				this.joinAllUserChatRooms(socket, token);
+				socket.on("disconnect", () => {
+					authService.finishOnlineSession(token);
+					Logger.info(
+						`(event) {disconnection}: ${ip} disconnected from the socket server.`
+					);
+					this.leaveRoom(session, `user:${session.userId}`, socket);
+				});
+
 				this.joinRoom(session, `user:${session.userId}`, socket);
 
 				if (session.role === "ADMIN") {
 					this.joinRoom(session, "admin", socket);
 				}
-
 
 				socket.on("join-room", (room: SocketClientRoom) => {
 					this.joinRoom(session, room, socket);

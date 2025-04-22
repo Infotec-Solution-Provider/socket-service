@@ -7,7 +7,6 @@ import WWEBJSAuthEvent from "./events/wwebjs-auth.event";
 import WWEBJSQrEvent from "./events/wwebjs-qr.event";
 import reportStatusSchema from "./schemas/report-status.schema";
 import wppChatFinishedSchema from "./schemas/wpp-chat-finished.schema";
-import wppMessageSchema from "./schemas/wpp-message.schema";
 import wwebjsAuthSchema from "./schemas/wwebjs-auth.schema";
 import wwebjsQrSchema from "./schemas/wwebjs-qr.schema";
 import WppChatStartedEvent from "./events/wpp-chat-started.event";
@@ -26,20 +25,11 @@ EventFactory.register(
 	wppChatStartedSchema
 );
 
-
 // Evento de mensagem do whatsapp
-EventFactory.register(
-	SocketEventType.WppMessage,
-	WppMessageEvent,
-	wppMessageSchema
-);
+EventFactory.register(SocketEventType.WppMessage, WppMessageEvent);
 
 // Evento de QR Code do WWEBJS
-EventFactory.register(
-	SocketEventType.WwebjsQr,
-	WWEBJSQrEvent,
-	wwebjsQrSchema
-);
+EventFactory.register(SocketEventType.WwebjsQr, WWEBJSQrEvent, wwebjsQrSchema);
 
 // Evento de autenticação do WWEBJS
 EventFactory.register(
