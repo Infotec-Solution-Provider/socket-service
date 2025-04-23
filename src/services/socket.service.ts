@@ -5,7 +5,8 @@ import { Logger, sanitizeErrorMessage } from "@in.pulse-crm/utils";
 import {
 	SocketClientRoom,
 	SocketServerRoom,
-	SessionData
+	SessionData,
+	SocketServerWalletRoom
 } from "@in.pulse-crm/sdk";
 import whatsappService from "./whatsapp.service";
 
@@ -24,18 +25,22 @@ class SocketService {
 		room: SocketClientRoom,
 		socket: Socket
 	) {
-		const serverRoom = `${session.instance}:${
-			room.includes("chat:") ? room : `${session.sectorId}:${room}`
-		}` as SocketServerRoom;
-		const ip = socket.conn.remoteAddress;
+		let serverRoom: SocketServerRoom;
 
-		if (
-			session.role !== "ADMIN" &&
-			["admin", "monitor", "reports"].some((v) => room.includes(v))
-		) {
-			Logger.error(
-				`(event) {join_room}: ${ip} - ${session.role} is not allowed to enter /${serverRoom}/`
-			);
+		if (["user:", "chat:"].some((prefix) => room.startsWith(prefix))) {
+			serverRoom = `${session.instance}:${room}` as SocketServerRoom;
+		} else {
+			serverRoom = `${session.instance}:${session.sectorId}:${room}`;
+		}
+
+		const ip = socket.conn.remoteAddress;
+		const isAdminRoom = ["admin", "monitor", "reports"].some((prefix) =>
+			room.startsWith(prefix)
+		);
+
+		if (session.role !== "ADMIN" && isAdminRoom) {
+			const logMsg = `(event) {join_room}: ${ip} - ${session.role} is not allowed to enter /${serverRoom}/`;
+			Logger.error(logMsg);
 			return;
 		}
 
@@ -57,15 +62,31 @@ class SocketService {
 	}
 
 	private async joinAllUserChatRooms(socket: Socket, token: string) {
+		try {
+			const { chats } = await whatsappService.getChatsBySession(
+				token,
+				false,
+				false
+			);
 
-		const { data } = await whatsappService.getChatsBySession(
-			token,
-			false,
-			false
-		);
+			for (const chat of chats) {
+				socket.join(`${chat.instance}:chat:${chat.id}`);
+			}
+		} catch (err) {
+			console.error(err);
+		}
+	}
 
-		for (const chat of data.chats) {
-			socket.join(`${chat.instance}:chat:${chat.id}`);
+	private async joinAllUserWalletRooms(
+		socket: Socket,
+		instance: string,
+		userId: number
+	) {
+		const wallets = await whatsappService.getUserWallets(instance, userId);
+
+		for (const wallet of wallets) {
+			const walletRoom: SocketServerWalletRoom = `${instance}:wallet:${wallet.id}`;
+			socket.join(walletRoom);
 		}
 	}
 
@@ -89,12 +110,16 @@ class SocketService {
 			}
 
 			try {
-				const { data: session } = await authService.fetchSessionData(
-					token
-				);
+				const session = await authService.fetchSessionData(token);
 
 				authService.initOnlineSession(token);
 				this.joinAllUserChatRooms(socket, token);
+				this.joinAllUserWalletRooms(
+					socket,
+					session.instance,
+					session.userId
+				);
+
 				socket.on("disconnect", () => {
 					authService.finishOnlineSession(token);
 					Logger.info(
