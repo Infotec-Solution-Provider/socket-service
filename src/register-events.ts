@@ -13,6 +13,10 @@ import WppChatStartedEvent from "./events/wpp-chat-started.event";
 import wppChatStartedSchema from "./schemas/wpp-chat-started.schema";
 import WppContactMessagesReadEvent from "./events/wpp-contact-messages-read.event";
 import WppMessageStatusEvent from "./events/wpp-message-status.event";
+import InternalChatFinishedEvent from "./events/internal-chat-finished.event";
+import InternalChatStartedEvent from "./events/internal-chat-started.event";
+import InternalMessageEvent from "./events/internal-message.event";
+import InternalMessageStatusEvent from "./events/internal-message-status.event";
 
 // Evento de conversa do whatsapp finalizada
 EventFactory.register(
@@ -58,4 +62,26 @@ EventFactory.register(
 	SocketEventType.ReportStatus,
 	ReportStatusEvent,
 	reportStatusSchema
+);
+// Evento de conversa do interna finalizada
+EventFactory.register(
+	SocketEventType.InternalChatFinished,
+	InternalChatFinishedEvent,
+	wppChatFinishedSchema
+);
+
+EventFactory.register(
+	SocketEventType.InternalChatStarted,
+	InternalChatStartedEvent,
+	wppChatStartedSchema
+);
+
+// Evento de mensagem do interna
+EventFactory.register(SocketEventType.InternalMessage, InternalMessageEvent);
+
+
+// Evento de status de mensagem do interna
+EventFactory.register(
+	SocketEventType.InternalMessageStatus,
+	InternalMessageStatusEvent
 );
