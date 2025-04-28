@@ -66,7 +66,8 @@ class SocketService {
 		try {
 			const { chats } = await whatsappService.getChatsBySession(
 				false,
-				false
+				false,
+				token
 			);
 
 			for (const chat of chats) {
@@ -78,16 +79,16 @@ class SocketService {
 	}
 	private async joinAllUserInternalChatRooms(socket: Socket, token: string) {
 		try {
-			const { chats } = await internalService.getChatsBySession(
-				false,
-				false
+			const { chats } = await internalService.getInternalChatsBySession(
+				token
 			);
 
 			for (const chat of chats) {
-				socket.join(`${chat.instance}:chat:${chat.id}`);
+				console.log("Joining: ", `${chat.instance}:internal-chat:${chat.id}`);
+				socket.join(`${chat.instance}:internal-chat:${chat.id}`);
 			}
 		} catch (err) {
-			console.error(err);
+			Logger.error(`Falha ao buscar chats internos`, err as Error);
 		}
 	}
 

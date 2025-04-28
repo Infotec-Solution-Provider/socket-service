@@ -17,6 +17,8 @@ class SocketController {
 		try {
 			const { room, type } = req.params;
 
+			console.log("Emitting event", room, type, req.body);
+
 			const event = EventFactory.createEvent(type, room, req.body);
 
 			if (event instanceof Error) {

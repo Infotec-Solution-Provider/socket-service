@@ -34,12 +34,8 @@ EventFactory.register(
 // Evento de mensagem do whatsapp
 EventFactory.register(SocketEventType.WppMessage, WppMessageEvent);
 
-
 // Evento de status de mensagem do whatsapp
-EventFactory.register(
-	SocketEventType.WppMessageStatus,
-	WppMessageStatusEvent
-);
+EventFactory.register(SocketEventType.WppMessageStatus, WppMessageStatusEvent);
 
 // Evento de status de mensagem do whatsapp
 EventFactory.register(
@@ -66,19 +62,16 @@ EventFactory.register(
 // Evento de conversa do interna finalizada
 EventFactory.register(
 	SocketEventType.InternalChatFinished,
-	InternalChatFinishedEvent,
-	wppChatFinishedSchema
+	InternalChatFinishedEvent
 );
 
 EventFactory.register(
 	SocketEventType.InternalChatStarted,
-	InternalChatStartedEvent,
-	wppChatStartedSchema
+	InternalChatStartedEvent
 );
 
 // Evento de mensagem do interna
 EventFactory.register(SocketEventType.InternalMessage, InternalMessageEvent);
-
 
 // Evento de status de mensagem do interna
 EventFactory.register(
