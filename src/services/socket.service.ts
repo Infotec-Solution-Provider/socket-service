@@ -9,6 +9,7 @@ import {
 	SocketServerWalletRoom
 } from "@in.pulse-crm/sdk";
 import whatsappService from "./whatsapp.service";
+import internalService from "./internal.service";
 
 class SocketService {
 	private server: Server | null = null;
@@ -64,7 +65,20 @@ class SocketService {
 	private async joinAllUserChatRooms(socket: Socket, token: string) {
 		try {
 			const { chats } = await whatsappService.getChatsBySession(
-				token,
+				false,
+				false
+			);
+
+			for (const chat of chats) {
+				socket.join(`${chat.instance}:chat:${chat.id}`);
+			}
+		} catch (err) {
+			console.error(err);
+		}
+	}
+	private async joinAllUserInternalChatRooms(socket: Socket, token: string) {
+		try {
+			const { chats } = await internalService.getChatsBySession(
 				false,
 				false
 			);
@@ -114,6 +128,7 @@ class SocketService {
 
 				authService.initOnlineSession(token);
 				this.joinAllUserChatRooms(socket, token);
+				this.joinAllUserInternalChatRooms(socket, token);
 				this.joinAllUserWalletRooms(
 					socket,
 					session.instance,
