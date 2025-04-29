@@ -84,7 +84,6 @@ class SocketService {
 			);
 
 			for (const chat of chats) {
-				console.log("Joining: ", `${chat.instance}:internal-chat:${chat.id}`);
 				socket.join(`${chat.instance}:internal-chat:${chat.id}`);
 			}
 		} catch (err) {
