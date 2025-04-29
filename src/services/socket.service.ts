@@ -28,7 +28,7 @@ class SocketService {
 	) {
 		let serverRoom: SocketServerRoom;
 
-		if (["user:", "chat:"].some((prefix) => room.startsWith(prefix))) {
+		if (["user:", "chat:", "internal-chat:"].some((prefix) => room.startsWith(prefix))) {
 			serverRoom = `${session.instance}:${room}` as SocketServerRoom;
 		} else {
 			serverRoom = `${session.instance}:${session.sectorId}:${room}`;
@@ -96,11 +96,21 @@ class SocketService {
 		instance: string,
 		userId: number
 	) {
-		const wallets = await whatsappService.getUserWallets(instance, userId);
+		try {
+			const wallets = await whatsappService.getUserWallets(
+				instance,
+				userId
+			);
 
-		for (const wallet of wallets) {
-			const walletRoom: SocketServerWalletRoom = `${instance}:wallet:${wallet.id}`;
-			socket.join(walletRoom);
+			for (const wallet of wallets) {
+				const walletRoom: SocketServerWalletRoom = `${instance}:wallet:${wallet.id}`;
+				socket.join(walletRoom);
+			}
+		} catch (err) {
+			Logger.error(
+				`Falha ao buscar carteiras do usuário ${userId} na instância ${instance}`,
+				err as Error
+			);
 		}
 	}
 
