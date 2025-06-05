@@ -2,11 +2,13 @@ import { SocketEventType } from "@in.pulse-crm/sdk";
 import EventFactory from "./events/event.factory";
 import ReportStatusEvent from "./events/report-status.event";
 import WppChatFinishedEvent from "./events/wpp-chat-finished.event";
+import WppChatTransferEvent from "./events/wpp-chat-transfer.event";
 import WppMessageEvent from "./events/wpp-message.event";
 import WWEBJSAuthEvent from "./events/wwebjs-auth.event";
 import WWEBJSQrEvent from "./events/wwebjs-qr.event";
 import reportStatusSchema from "./schemas/report-status.schema";
 import wppChatFinishedSchema from "./schemas/wpp-chat-finished.schema";
+import wppChatTransferSchema from "./schemas/wpp-chat-transfer.schema";
 import wwebjsAuthSchema from "./schemas/wwebjs-auth.schema";
 import wwebjsQrSchema from "./schemas/wwebjs-qr.schema";
 import WppChatStartedEvent from "./events/wpp-chat-started.event";
@@ -29,6 +31,12 @@ EventFactory.register(
 	SocketEventType.WppChatStarted,
 	WppChatStartedEvent,
 	wppChatStartedSchema
+);
+// Evento de conversa do whatsapp tranferida
+EventFactory.register(
+	SocketEventType.WppChatTransfer,
+	WppChatTransferEvent,
+	wppChatTransferSchema
 );
 
 // Evento de mensagem do whatsapp
