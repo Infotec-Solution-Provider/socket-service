@@ -9,7 +9,7 @@ const reportStatusSchema = z.object({
 	error: z.string().optional(),
 	fileId: z.number().optional(),
 	messages: z.number().optional(),
-	chats: z.number().optional(),
+	chats: z.number().optional()
 });
 
 export default reportStatusSchema;

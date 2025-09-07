@@ -5,7 +5,7 @@ class WppMessageEvent implements Event {
 	constructor(
 		private readonly roomName: string,
 		private readonly eventData: WppMessageEventData
-	) { }
+	) {}
 
 	get room() {
 		return this.roomName;

@@ -1,10 +1,7 @@
 import Event from "./event";
 import { SocketEventType } from "@in.pulse-crm/sdk";
 
-type EventConstructor = new (
-	room: string,
-	data: any
-) => Event;
+type EventConstructor = new (room: string, data: any) => Event;
 
 type ValidationSchema = {
 	parse: (data: any) => any;
@@ -14,11 +11,7 @@ class EventFactory {
 	private static eventRegistry: Map<string, EventConstructor> = new Map();
 	private static eventSchemas: Map<string, ValidationSchema> = new Map();
 
-	public static register(
-		type: SocketEventType,
-		constructor: EventConstructor,
-		schema?: ValidationSchema
-	): void {
+	public static register(type: SocketEventType, constructor: EventConstructor, schema?: ValidationSchema): void {
 		EventFactory.eventRegistry.set(type, constructor);
 
 		if (schema) {
@@ -26,12 +19,7 @@ class EventFactory {
 		}
 	}
 
-	public static createEvent(
-		type?: any,
-		room?: any,
-		data?: any
-	): Event | Error {
-
+	public static createEvent(type?: any, room?: any, data?: any): Event | Error {
 		if (!room || typeof room !== "string" || !room.trim()) {
 			return new Error("Room name is required.");
 		}
@@ -55,4 +43,3 @@ class EventFactory {
 }
 
 export default EventFactory;
-

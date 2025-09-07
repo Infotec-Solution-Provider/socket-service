@@ -2,7 +2,10 @@ import { SocketEventType, WppMessageEditEventData } from "@in.pulse-crm/sdk";
 import Event from "./event";
 
 class WppMessageEditEvent implements Event {
-	constructor(private readonly roomName: string, private readonly eventData: WppMessageEditEventData) {}
+	constructor(
+		private readonly roomName: string,
+		private readonly eventData: WppMessageEditEventData
+	) {}
 
 	get room() {
 		return this.roomName;

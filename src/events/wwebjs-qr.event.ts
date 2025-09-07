@@ -5,7 +5,7 @@ class WWEBJSQrEvent implements Event {
 	constructor(
 		private readonly roomName: string,
 		private readonly eventData: WWEBJSQrEventData
-	) { }
+	) {}
 
 	get room() {
 		return this.roomName;

@@ -5,7 +5,7 @@ class WppChatStartedEvent implements Event {
 	constructor(
 		private readonly roomName: string,
 		private readonly eventData: WppChatStartedEventData
-	) { }
+	) {}
 
 	get room() {
 		return this.roomName;

@@ -5,7 +5,7 @@ class ReportStatusEvent implements Event {
 	constructor(
 		private readonly roomName: string,
 		private readonly eventData: ReportStatusEventData
-	) { }
+	) {}
 
 	get room() {
 		return this.roomName;

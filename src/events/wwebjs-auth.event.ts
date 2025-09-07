@@ -5,7 +5,7 @@ class WWEBJSAuthEvent implements Event {
 	constructor(
 		private readonly roomName: string,
 		private readonly eventData: WWEBJSAuthEventData
-	) { }
+	) {}
 
 	get room() {
 		return this.roomName;

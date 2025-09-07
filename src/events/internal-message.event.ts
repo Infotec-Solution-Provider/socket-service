@@ -5,7 +5,7 @@ class InternalMessageEvent implements Event {
 	constructor(
 		private readonly roomName: string,
 		private readonly eventData: InternalMessageEventData
-	) { }
+	) {}
 
 	get room() {
 		return this.roomName;

@@ -5,7 +5,7 @@ class InternalChatStartedEvent implements Event {
 	constructor(
 		private readonly roomName: string,
 		private readonly eventData: InternalChatStartedEventData
-	) { }
+	) {}
 
 	get room() {
 		return this.roomName;
