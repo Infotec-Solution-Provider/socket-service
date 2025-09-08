@@ -1,3 +1,4 @@
+import { Logger } from "@in.pulse-crm/utils";
 import Event from "./event";
 import { SocketEventType } from "@in.pulse-crm/sdk";
 
@@ -12,6 +13,7 @@ class EventFactory {
 	private static eventSchemas: Map<string, ValidationSchema> = new Map();
 
 	public static register(type: SocketEventType, constructor: EventConstructor, schema?: ValidationSchema): void {
+		Logger.info(`Registering event type: ${type}`);
 		EventFactory.eventRegistry.set(type, constructor);
 
 		if (schema) {

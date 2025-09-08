@@ -20,6 +20,7 @@ class SocketController {
 			const event = EventFactory.createEvent(type, room, req.body);
 
 			if (event instanceof Error) {
+				console.error("Error creating event:", event);
 				res.status(400).json({
 					message: sanitizeErrorMessage(event),
 					cause: event
