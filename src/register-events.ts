@@ -21,6 +21,8 @@ import InternalMessageEvent from "./events/internal-message.event";
 import InternalMessageStatusEvent from "./events/internal-message-status.event";
 import WppMessageEditEvent from "./events/wpp-message-edit.event";
 import WppMessageDeleteEvent from "./events/wpp-message-delete.event";
+import InternalMessageEditEvent from "./events/internal-message-edit.event";
+import InternalMessageDeleteEvent from "./events/internal-message-delete.event";
 
 // Evento de conversa do whatsapp finalizada
 EventFactory.register(SocketEventType.WppChatFinished, WppChatFinishedEvent, wppChatFinishedSchema);
@@ -55,10 +57,17 @@ EventFactory.register(SocketEventType.ReportStatus, ReportStatusEvent, reportSta
 // Evento de conversa do interna finalizada
 EventFactory.register(SocketEventType.InternalChatFinished, InternalChatFinishedEvent);
 
+// Evento de conversa do interna iniciada
 EventFactory.register(SocketEventType.InternalChatStarted, InternalChatStartedEvent);
 
 // Evento de mensagem do interna
 EventFactory.register(SocketEventType.InternalMessage, InternalMessageEvent);
+
+// Evento de edição de mensagem do interna
+EventFactory.register(SocketEventType.InternalMessageEdit, InternalMessageEditEvent);
+
+// Evento de mensagem apagada do interna
+EventFactory.register(SocketEventType.InternalMessageDelete, InternalMessageDeleteEvent);
 
 // Evento de status de mensagem do interna
 EventFactory.register(SocketEventType.InternalMessageStatus, InternalMessageStatusEvent);
