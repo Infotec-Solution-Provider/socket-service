@@ -23,6 +23,8 @@ import WppMessageEditEvent from "./events/wpp-message-edit.event";
 import WppMessageDeleteEvent from "./events/wpp-message-delete.event";
 import InternalMessageEditEvent from "./events/internal-message-edit.event";
 import InternalMessageDeleteEvent from "./events/internal-message-delete.event";
+import TelephonyCallReceivedEvent from "./events/telephony-call-received.event";
+import telephonyCallReceivedSchema from "./schemas/telephony-call-received.schema";
 
 // Evento de conversa do whatsapp finalizada
 EventFactory.register(SocketEventType.WppChatFinished, WppChatFinishedEvent, wppChatFinishedSchema);
@@ -71,3 +73,10 @@ EventFactory.register(SocketEventType.InternalMessageDelete, InternalMessageDele
 
 // Evento de status de mensagem do interna
 EventFactory.register(SocketEventType.InternalMessageStatus, InternalMessageStatusEvent);
+
+// Evento de chamada telefonica receptiva recebida via AMI
+EventFactory.register(
+	"telephony_call_received" as SocketEventType,
+	TelephonyCallReceivedEvent,
+	telephonyCallReceivedSchema
+);
