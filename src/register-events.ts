@@ -6,6 +6,7 @@ import WppChatTransferEvent from "./events/wpp-chat-transfer.event";
 import WppMessageEvent from "./events/wpp-message.event";
 import WWEBJSAuthEvent from "./events/wwebjs-auth.event";
 import WWEBJSQrEvent from "./events/wwebjs-qr.event";
+import WWEBJSSessionStatusEvent from "./events/wwebjs-session-status.event";
 import reportStatusSchema from "./schemas/report-status.schema";
 import wppChatFinishedSchema from "./schemas/wpp-chat-finished.schema";
 import wppChatTransferSchema from "./schemas/wpp-chat-transfer.schema";
@@ -53,6 +54,12 @@ EventFactory.register(SocketEventType.WwebjsQr, WWEBJSQrEvent, wwebjsQrSchema);
 
 // Evento de autenticação do WWEBJS
 EventFactory.register(SocketEventType.WwebjsAuth, WWEBJSAuthEvent, wwebjsAuthSchema);
+
+// Evento de status da sessão remota do WWEBJS
+EventFactory.register(
+	"wwebjs_session_status" as SocketEventType,
+	WWEBJSSessionStatusEvent
+);
 
 // Evento de status de relatório
 EventFactory.register(SocketEventType.ReportStatus, ReportStatusEvent, reportStatusSchema);
