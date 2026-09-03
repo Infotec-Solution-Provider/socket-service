@@ -102,13 +102,17 @@ class SocketService {
 			try {
 				const session = await authService.fetchSessionData(token);
 
-				authService.initOnlineSession(token);
+				await authService.initOnlineSession(token);
 				this.joinAllUserChatRooms(socket, token);
 				this.joinAllUserInternalChatRooms(socket, token);
 				this.joinAllUserWalletRooms(socket, session.instance, session.userId);
 
-				socket.on("disconnect", () => {
-					authService.finishOnlineSession(token);
+				socket.on("disconnect", async () => {
+					try {
+						await authService.finishOnlineSession(token);
+					} catch (error) {
+						Logger.error("Failed to finish online session", error as Error);
+					}
 					Logger.info(`(event) {disconnection}: ${ip} disconnected from the socket server.`);
 					this.leaveRoom(session, `user:${session.userId}`, socket);
 				});
