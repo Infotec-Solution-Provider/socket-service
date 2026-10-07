@@ -29,7 +29,12 @@ const socket = new Server(server, {
 			"http://localhost:6001",
 			"https://inpulse.infotecrs.inf.br",
 			"https://socket.infotecrs.inf.br",
-			"http://localhost:3000"
+			"http://localhost:3000",
+			// Origens extras separadas por vírgula (ex.: homologação).
+			...(process.env["SOCKET_EXTRA_CORS_ORIGINS"] || "")
+				.split(",")
+				.map((origin) => origin.trim())
+				.filter(Boolean)
 		],
 		methods: ["GET", "POST"]
 	}
