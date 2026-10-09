@@ -9,14 +9,17 @@ importers:
   .:
     dependencies:
       '@in.pulse-crm/sdk':
-        specifier: ^2.11.0
-        version: 2.14.8
+        specifier: ^2.15.0
+        version: 2.15.0
       '@in.pulse-crm/utils':
         specifier: ^1.3.0
         version: 1.3.0
       axios:
         specifier: ^1.8.4
         version: 1.13.6
+      cors:
+        specifier: ^2.8.6
+        version: 2.8.6
       dotenv:
         specifier: ^16.4.7
         version: 16.6.1
@@ -30,6 +33,9 @@ importers:
         specifier: ^3.24.2
         version: 3.25.76
     devDependencies:
+      '@types/cors':
+        specifier: ^2.8.19
+        version: 2.8.19
       '@types/express':
         specifier: ^5.0.0
         version: 5.0.6
@@ -49,8 +55,8 @@ packages:
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
     engines: {node: '>=12'}
 
-  '@in.pulse-crm/sdk@2.14.8':
-    resolution: {integrity: sha512-4vTj7SgdAienVvyVGumJO/4m7O1KyPovH58Nd/7GmEVTV0SLDQUFac2h0IUC816xhFS5Tjcl8PVMX86vy1te1w==}
+  '@in.pulse-crm/sdk@2.15.0':
+    resolution: {integrity: sha512-CWmvHCo9P9CPO6leRVL6fIj1KDdE6gcTsbHjw6KzaEnyfON54DAEx4b20Uu+aOSpEvh7T8P7TSfpgbvgz5DO4A==}
 
   '@in.pulse-crm/utils@1.3.0':
     resolution: {integrity: sha512-xPiPwHf+39RMDmz+6rGOqAgyI+aSYzBJ0I94frOxX5ww18DRR30nDW9Zi5j99kEI6RNPBf663CT5uMwUH6/9Fg==}
@@ -721,7 +727,7 @@ snapshots:
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
 
-  '@in.pulse-crm/sdk@2.14.8':
+  '@in.pulse-crm/sdk@2.15.0':
     dependencies:
       '@in.pulse-crm/utils': 1.3.0
       axios: 1.13.6
